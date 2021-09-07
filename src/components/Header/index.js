@@ -11,43 +11,45 @@ import './styles.scss';
 
 // == Composant
 
-const MenuComponent = ({ userLog, logOutUser, onClickBookMarkPage, setUserSignUp, setUserLog, userSignUp }) => {
+const MenuComponent = ({
+  userLog, logOutUser, onClickBookMarkPage, setUserSignUp, setUserLog, userSignUp,
+}) => {
   const removeErrorClick = () => {
     if (userSignUp.error) {
       setUserSignUp({
         ...userSignUp,
-        password : '',
+        password: '',
         confirmPassword: '',
-        error :  false,
-      })
+        error: false,
+      });
     }
     if (userSignUp.databaseError) {
       setUserSignUp({
         ...userSignUp,
         password: '',
-        confirmPassword: '',        
-        databaseError :  false
-      })
+        confirmPassword: '',
+        databaseError: false,
+      });
     }
     if (userLog.error) {
       setUserLog({
         ...userLog,
         password: '',
-        confirmPassword: '',        
-        error :  false
-      })
+        confirmPassword: '',
+        error: false,
+      });
     }
     if (userLog.databaseError) {
       setUserLog({
         ...userLog,
         password: '',
-        confirmPassword: '',        
-        databaseError :  false
-      })
+        confirmPassword: '',
+        databaseError: false,
+      });
     }
-  }
+  };
 
-  return(
+  return (
     <Container className="container">
       <Menu secondary className="header-menu">
         <NavLink
@@ -186,7 +188,7 @@ const MenuComponent = ({ userLog, logOutUser, onClickBookMarkPage, setUserSignUp
           )}
       </Menu>
     </Container>
-  )
+  );
 };
 
 // == Export

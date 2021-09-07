@@ -1,9 +1,29 @@
+// === IMPORTANT === // 
+// === Structure and of the App === //
+// === Components name & folders : === //
+// - ToutSurApp (Parent folder & component of the application)
+// - Header (Folder & Component of the Header of the application)
+
+// - Members (Members folder with all components for a user connected)
+// --> Articles (Component of all of the favorite articles of the member)
+// --> ArticlesByCategories (Component of all of the article FOR a selected categorie)
+// --> Blog (Component page of blogging creation for the member)
+// --> CategoriesMember (Component of all of the categories of the application for a member)
+
+// - Users (Users folder with all components for a non connected user)
+// --> Articles (Component of all of the articles for a selected categorie)
+// --> Categories (Component of all of the categories of the application for a non connected)
+// --> Connection (Component of the connection page)
+// --> SignUpForm (Component of the sign up form page)
+
+
+
 // ==== IMPORT SECTION ====
 // == Import NPM frameworks & librairies
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Segment } from 'semantic-ui-react';
 import {
-  Route, Switch, Link, withRouter, Redirect
+  Route, Switch, Link, withRouter, Redirect,
 } from 'react-router-dom';
 import axios from 'axios';
 
@@ -46,7 +66,6 @@ const initialFormSignUpData = ({
 });
 
 // ==== COMPONENTS toutSurAPP SECTION ====
-
 const ToutSurApp = () => {
 // == State of the application
   const [cards, setCards] = useState([]);
@@ -63,32 +82,7 @@ const ToutSurApp = () => {
   const [visible, setVisible] = useState(false);
   const [message, setMessage] = useState(false);
 
-  // == Logical part (functions) of the application:
-  // == Function for bookmark a categorie
-  const bookmarkACategorie = async (categorie) => {
-    try {
-      const dataFetched = await axios({
-        method: 'put',
-        url: `https://toutsur-app-gachimaster.herokuapp.com/categories/${categorie}`,
-      });
-      if (dataFetched.data.length === 0) {
-        setUserBookmarksCategories(null);
-      }
-      setUserBookmarksCategories(dataFetched.data);
-    }
-    catch (error) {
-      console.log(error.message);
-    }
-  };
-
-  // == Function who send a confirmation message and run the bookmark function
-  // == when the user click to bookmark a favorite
-  const onBookmarkACategorie = (event) => {
-    setMessage(true);
-    setTimeout(() => setMessage(false), 1000);
-    const clicked = event.target;
-    bookmarkACategorie(clicked.name);
-  };
+  // == Functions of the application:
 
   // == FLUX RSS FUNCTIONS == //
   // == Render a list of articles by categorie :
@@ -380,8 +374,36 @@ const ToutSurApp = () => {
   };
 
   // == FETCH & REQUEST API FUNCTIONS == //
+
+  // == Function for add a favorite categorie in the user bookmark.
+  const bookmarkACategorie = async (categorie) => {
+    try {
+      const dataFetched = await axios({
+        method: 'put',
+        url: `https://toutsur-app-gachimaster.herokuapp.com/categories/${categorie}`,
+      });
+      if (dataFetched.data.length === 0) {
+        setUserBookmarksCategories(null);
+      }
+      setUserBookmarksCategories(dataFetched.data);
+    }
+    catch (error) {
+      console.log(error.message);
+    }
+  };
+
+  // == Function who send a confirmation message and run the bookmark function
+  // == when the user click to bookmark a favorite
+  const onBookmarkACategorie = (event) => {
+    setMessage(true);
+    setTimeout(() => setMessage(false), 1000);
+    const clicked = event.target;
+    bookmarkACategorie(clicked.name);
+  };
+
   // == Function for fetch all of the favorites categories of the user
   // == when he come on the favorite page.
+  // == Function for bookmark a categorie
   const onClickBookMarkPage = async () => {
     try {
       const dataCategoriesFetched = await axios({
