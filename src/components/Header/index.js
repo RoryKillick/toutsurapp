@@ -14,6 +14,9 @@ import './styles.scss';
 const MenuComponent = ({
   userLog, logOutUser, onClickBookMarkPage, setUserSignUp, setUserLog, userSignUp,
 }) => {
+
+  // == Function who remove the Error message in the Sign In and the Sign Up component
+  // ==  when a user click on a link.
   const removeErrorClick = () => {
     if (userSignUp.error) {
       setUserSignUp({

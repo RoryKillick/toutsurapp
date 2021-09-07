@@ -4,13 +4,13 @@
   text-align: center;
 }
 
+// == Modification of all of the card of Semantic UI
 .ui.card>.image:not(.ui)>img {
   height: 186px;
 }
 .ui.card>.image {
   height: 186px;
 }
-//je selection tous les classes content dans le parent ui-card sauf les classes "extra"
 .ui.card>.content:not(.extra){
   height: 11em;
 }
@@ -19,26 +19,30 @@
   height: 3em;
 }
 
+// == Modification for a better render when the user use > 400px
 @media (max-width: 400px) {
   .ui.card.card-categorie>.content {
     height: 5em;
   }
 }
 
-
-//j'utilise le !important malgres la mauvaise pratique vu le manque de temps avnat la presentation
 .card-article-button {
   height: 3em !important;
 }
-
 
 .ui.card>.content:hover {
   background-color: rgba(0, 0, 0, 0.075);
 }
 
-
 .card-group>a {
   margin: 1em;
+}
+
+//== If user has the reduced motion of animation activated :
+@media (prefers-reduced-motion: reduce) {
+  .card {
+    transition: none;
+  }
 }
 
 

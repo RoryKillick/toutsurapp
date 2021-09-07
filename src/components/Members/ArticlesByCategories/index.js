@@ -5,15 +5,13 @@ import {
 } from 'semantic-ui-react';
 import Article from './Article';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant
 const ArticlesByCategories = ({
-  categorieSelected, categorieClicked, onBookmarkACategorie, setUserBookmarksArticles, isLoading, visible, scrollToTop,
-}) => {
-
-  return(
+  categorieSelected, categorieClicked, setUserBookmarksArticles, isLoading, visible, scrollToTop,
+}) => (
   <Container>
     <Segment vertical>
       <h1 className="title">
@@ -39,7 +37,7 @@ const ArticlesByCategories = ({
       />
     </Segment>
   </Container>
-  )};
+);
 
 // == Export
 export default ArticlesByCategories;

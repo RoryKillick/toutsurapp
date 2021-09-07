@@ -2,11 +2,11 @@
 import React from 'react';
 import { Link } from 'react-router-dom';
 import {
-  Card, Segment, Container, Grid, Loader, Icon
+  Card, Segment, Container, Loader, Icon
 } from 'semantic-ui-react';
 import Article from './Article';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant

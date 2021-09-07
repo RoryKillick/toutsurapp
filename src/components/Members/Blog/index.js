@@ -6,9 +6,9 @@ import {
   Input,
   Select,
 } from 'semantic-ui-react';
-
-// == Import
 import { Editor } from '@tinymce/tinymce-react';
+
+// == Import CSS
 import './styles.scss';
 
 // == Composant

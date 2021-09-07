@@ -1,11 +1,9 @@
 // == Import npm
 import React from 'react';
-import {
-  Card, Icon, Image, Popup, Button,
-} from 'semantic-ui-react';
+import { Card, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant

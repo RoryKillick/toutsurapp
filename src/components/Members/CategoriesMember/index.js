@@ -3,10 +3,9 @@ import React from 'react';
 import {
   Card, Segment, Container, Grid,
 } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
 import Categorie from './Categorie';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant
@@ -35,15 +34,6 @@ const CategoriesMember = ({
               categorie={card}
               onCategorieSelected={onCategorieSelected}
               onBookmarkACategorie={onBookmarkACategorie}
-              /* isfavorite={userBookmarksCategoriesPage.forEach((bookmark => {
-                console.log('Favoris utilisateur :', bookmark.name, bookmark.id)
-                console.log('Catégorie de notre BDD:', card.name, card.id)
-                console.log(bookmark.id === card.id);
-                if (bookmark.id === card.id) {
-                  console.log(' ---------------- Je return true pour changer le texte ---------------------');
-                  return true
-                }
-              return }))} */
               userBookmarksCategoriesPage={userBookmarksCategoriesPage}
               cards={cards}
             />

@@ -1,12 +1,12 @@
 // == Import npm
 import React from 'react';
 import {
-  Card, Segment, Container, Button,
+  Card, Segment, Container,
 } from 'semantic-ui-react';
 import FavArticleCard from './FavArticleCard';
 import FavCategorieCard from './FavCategorieCard';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant

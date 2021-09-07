@@ -1,9 +1,8 @@
 // == Import npm
 import React from 'react';
-import { Card, Container } from 'semantic-ui-react';
-import { Link } from 'react-router-dom';
+import { Card } from 'semantic-ui-react';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant

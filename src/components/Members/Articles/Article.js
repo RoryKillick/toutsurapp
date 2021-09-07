@@ -10,6 +10,8 @@ import './styles.scss';
 
 // == Composant
 const Article = ({ article, setUserBookmarksArticles }) => {
+
+// == Function for bookmark an article
   const addFavoriteArticle = async () => {
     try {
       const FavoriteArticleAdded = await axios({
@@ -53,15 +55,6 @@ const Article = ({ article, setUserBookmarksArticles }) => {
             position="top center"
           />
         </a>
-        {/*       <a href="#" className="card-article-header">
-        <Popup
-          content="Signaler l'article"
-          trigger={(
-            <Icon name="warning circle" size="large" />
-         )}
-          position="top center"
-        />
-      </a> */}
       </Card.Content>
       <Card
         image={article.media ? article.media : 'https://cdn.pixabay.com/photo/2019/04/10/11/56/watercolour-4116932_960_720.png'}
@@ -89,26 +82,6 @@ const Article = ({ article, setUserBookmarksArticles }) => {
         header={article.title}
         description={article.media ? '' : 'Impossible de charger l\'image.'}
       />
-      {/*     <Card.Content extra className="card-article-container">
-      <a className="card-article-header">
-        <Popup
-          content="Upvoter l'article"
-          trigger={(
-            <Icon name="fire" size="large" color="orange" />
-        )}
-          position="bottom center"
-        />
-      </a>
-      <a className="card-article-header">
-        <Popup
-          content="Commenter l'article"
-          trigger={(
-            <Icon name="commenting" size="large" />
-      )}
-          position="bottom center"
-        />
-      </a>
-    </Card.Content> */}
     </Card>
   );
 };

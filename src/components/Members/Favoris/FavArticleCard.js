@@ -1,16 +1,16 @@
 // == Import npm
 import React from 'react';
-import {
-  Card, Icon, Popup, Label, Button,
-} from 'semantic-ui-react';
+import { Card } from 'semantic-ui-react';
 import axios from 'axios';
 import { Link } from 'react-router-dom';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant
 const FavArticleCard = ({ article, setUserBookmarksArticles }) => {
+
+  // == Function for delete a favorite article
   const deleteFavoriteArticle = async () => {
     try {
       const FavoriteArticleDeleted = await axios({
@@ -59,26 +59,6 @@ const FavArticleCard = ({ article, setUserBookmarksArticles }) => {
         <Card.Content className="card-article-button" as="a" onClick={deleteFavoriteArticle}>
           <Link className="card-categorie" name={article.id}>Supprimer des favoris</Link>
         </Card.Content>
-      {/*     <Card.Content extra className="card-article-container">
-      <a className="card-article-header">
-      <Popup
-      content="Upvoter l'article"
-      trigger={(
-        <Icon name="fire" size="large" color="orange" />
-        )}
-        position="bottom center"
-        />
-        </a>
-        <a className="card-article-header">
-        <Popup
-          content="Commenter l'article"
-          trigger={(
-            <Icon name="commenting" size="large" />
-      )}
-          position="bottom center"
-        />
-      </a>
-    </Card.Content> */}
     </Card>
   );
 };

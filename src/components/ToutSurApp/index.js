@@ -1,5 +1,5 @@
 // === IMPORTANT === // 
-// === Structure and of the App === //
+// === Structure of the App === //
 // === Components name & folders : === //
 // - ToutSurApp (Parent folder & component of the application)
 // - Header (Folder & Component of the Header of the application)
@@ -9,14 +9,13 @@
 // --> ArticlesByCategories (Component of all of the article FOR a selected categorie)
 // --> Blog (Component page of blogging creation for the member)
 // --> CategoriesMember (Component of all of the categories of the application for a member)
+// --> Favoris (Component of all of the favorites categories and articles of the user)
 
 // - Users (Users folder with all components for a non connected user)
 // --> Articles (Component of all of the articles for a selected categorie)
 // --> Categories (Component of all of the categories of the application for a non connected)
 // --> Connection (Component of the connection page)
 // --> SignUpForm (Component of the sign up form page)
-
-
 
 // ==== IMPORT SECTION ====
 // == Import NPM frameworks & librairies
@@ -188,7 +187,7 @@ const ToutSurApp = () => {
     });
   };
 
-  // == Same Function but for the sign up form
+  // == Function who modify the input form and register what the user is typing in the sign up form
   const onFormSignUp = (name, value) => {
     setUserSignUp({
       ...userSignUp,

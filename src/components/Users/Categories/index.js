@@ -6,7 +6,7 @@ import {
 import { Link } from 'react-router-dom';
 import Categorie from './Categorie';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant

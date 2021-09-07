@@ -18,22 +18,3 @@
   flex-direction: row;
   padding: 2em 0px 1em 0px;
 }
-
-
-/* //== Animation au hover de la carte
-.card {
-  will-change: transform;
-  transition: transform 0.4s;
-}
-.card:hover {
-  transition: transform 0.1s;
-  transform: translateY(-7px);
-}
- */
-
-//== Si des personnes ont activées la préférence de réduction des animations : 
-@media (prefers-reduced-motion: reduce) {
-  .card {
-    transition: none;
-  }
-}

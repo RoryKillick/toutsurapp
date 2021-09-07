@@ -3,16 +3,16 @@ import React from 'react';
 import {
   Form, Divider, Button, Segment, Container, Message,
 } from 'semantic-ui-react';
-import { Link, Redirect } from 'react-router-dom';
+import { Redirect } from 'react-router-dom';
 
 // == Import
 import './styles.scss';
 
 // == Composant
 const Connection = ({ onInputLogUserChange, handleSubmitLogin, userLog, setUserLog }) => {
+
+  // == When the input change, there is a modification state
   const handleInputChange = (evt) => {
-    // Je récupère le nom de l'input qui a changé
-    // et sa value (son contenu)
     const { name, value } = evt.target;
     onInputLogUserChange(name, value);
     if (userLog.error) {

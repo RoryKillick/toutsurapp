@@ -3,28 +3,14 @@ import React from 'react';
 import { Card, Image } from 'semantic-ui-react';
 import { Link } from 'react-router-dom';
 
-// == Import
+// == Import CSS
 import './styles.scss';
 
 // == Composant
 
 const Categorie = ({
-  categorie, onCategorieSelected, onBookmarkACategorie, userBookmarksCategoriesPage, isfavorite
-}) => {
-/*   const isBooked = (card) => {
-    userBookmarksCategoriesPage.forEach((bookmark => {
-        console.log('Favoris utilisateur :', bookmark.name, bookmark.id)
-        console.log('ID de la carte de la catégorie:', card)
-        console.log(bookmark.id === card);
-        if (bookmark.id === card) {
-          console.log('Jenvooi true');
-          return true
-        }
-  }))
-  return null
-} */
-
-  return (
+  categorie, onCategorieSelected, onBookmarkACategorie, userBookmarksCategoriesPage, isfavorite,
+}) => (
   <Card color={categorie.color} className="card-categorie">
     <Link
       to="/articles"
@@ -33,7 +19,7 @@ const Categorie = ({
       id={categorie.id}
       as="a"
     >
-      <Card  name={categorie.name} className="card-categorie">
+      <Card name={categorie.name} className="card-categorie">
         <Image src={categorie.picture} />
         <Card.Content>
           <Card.Header>#{categorie.name}</Card.Header>
@@ -47,7 +33,6 @@ const Categorie = ({
     </Card.Content>
   </Card>
 );
-}
 
 // == Export
 export default Categorie;
