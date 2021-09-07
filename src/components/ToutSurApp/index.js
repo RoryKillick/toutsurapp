@@ -1,29 +1,31 @@
-// == Import npm
+// ==== IMPORT SECTION ====
+// == Import NPM frameworks & librairies
 import React, { useState, useEffect, useLayoutEffect } from 'react';
 import { Segment } from 'semantic-ui-react';
 import {
-  Route, Switch, Link, withRouter,
+  Route, Switch, Link, withRouter, Redirect
 } from 'react-router-dom';
 import axios from 'axios';
 
-// == Import components & styles
+// == Import CSS styles
 import './styles.scss';
-import Header from 'src/components/Header';
 
 // == Import users components
+import Header from 'src/components/Header';
 import Connection from 'src/components/Users/Connection';
 import Categories from 'src/components/Users/Categories';
-import CategoriesMember from 'src/components/Members/CategoriesMember';
 import Articles from 'src/components/Users/Articles';
+
+// == Import members components
+import CategoriesMember from 'src/components/Members/CategoriesMember';
 import ArticlesMember from 'src/components/Members/Articles';
 import ArticlesByCategories from 'src/components/Members/ArticlesByCategories';
 import Favoris from 'src/components/Members/Favoris';
-import SignUpForm from '../Users/SignUpForm';
 import Blog from '../Members/Blog';
+import SignUpForm from '../Users/SignUpForm';
 
-// == Import members components
-
-// == Data par default
+// ==== INITIAL DATA SECTION ====
+// == Initial Login Form Data
 const initialFormLoginData = ({
   email: '',
   password: '',
@@ -32,6 +34,7 @@ const initialFormLoginData = ({
   logged: false,
 });
 
+// == Initial Sign up Form Data
 const initialFormSignUpData = ({
   name: '',
   email: '',
@@ -42,9 +45,10 @@ const initialFormSignUpData = ({
   databaseError: false,
 });
 
-// == Composant
+// ==== COMPONENTS toutSurAPP SECTION ====
+
 const ToutSurApp = () => {
-// == State de l'application
+// == State of the application
   const [cards, setCards] = useState([]);
   const [userLog, setUserLog] = useState(initialFormLoginData);
   const [userSignUp, setUserSignUp] = useState(initialFormSignUpData);
@@ -57,41 +61,10 @@ const ToutSurApp = () => {
   const [filteredFavorites, setFilteredFavorites] = useState(false);
   const [isLoading, setIsLoading] = useState(false);
   const [visible, setVisible] = useState(false);
-  const [message, setMessage] = useState(false)
+  const [message, setMessage] = useState(false);
 
-  // == Fonctions de l'application
-
-  // == Fonction pour inscrire un utilisateur
-  const postSubscribeUser = async () => {
-    try {
-      const userSubscribed = await axios({
-        method: 'post',
-        url: 'https://toutsur-app-gachimaster.herokuapp.com/signup',
-        data: {
-          name: userSignUp.name,
-          email: userSignUp.email,
-          password: userSignUp.password,
-          passwordConfirm: userSignUp.confirmPassword,
-        },
-      });
-      setUserSignUp({
-        ...userSignUp,
-        name: '',
-        email: '',
-        password: '',
-        confirmPassword: '',
-        error: false,
-        subscribed: true,
-      });
-    }
-    catch (error) {
-      setUserSignUp({
-        ...userSignUp,
-        databaseError: true,
-      });
-    }
-  };
-
+  // == Logical part (functions) of the application:
+  // == Function for bookmark a categorie
   const bookmarkACategorie = async (categorie) => {
     try {
       const dataFetched = await axios({
@@ -108,6 +81,8 @@ const ToutSurApp = () => {
     }
   };
 
+  // == Function who send a confirmation message and run the bookmark function
+  // == when the user click to bookmark a favorite
   const onBookmarkACategorie = (event) => {
     setMessage(true);
     setTimeout(() => setMessage(false), 1000);
@@ -115,13 +90,8 @@ const ToutSurApp = () => {
     bookmarkACategorie(clicked.name);
   };
 
-  const onInputLogUserChange = (name, value) => {
-    setUserLog({
-      ...userLog,
-      [name]: value,
-    });
-  };
-  // == Fonction pour récupérer les articles sur l'API RSS
+  // == FLUX RSS FUNCTIONS == //
+  // == Render a list of articles by categorie :
   const onClickCategoriePage = async (categorie) => {
     setIsLoading(true);
     try {
@@ -214,7 +184,56 @@ const ToutSurApp = () => {
       setIsLoading(false);
     }
   };
-  // == Envoi d'une requête à l'API BACK pour la connexion de notre utilisateur
+
+  // == LOG IN AND REGISTER FUNCTIONS == //
+  // == Function who modify the input form and register what the user is typing in the login form
+  const onInputLogUserChange = (name, value) => {
+    setUserLog({
+      ...userLog,
+      [name]: value,
+    });
+  };
+
+  // == Same Function but for the sign up form
+  const onFormSignUp = (name, value) => {
+    setUserSignUp({
+      ...userSignUp,
+      [name]: value,
+    });
+  };
+
+  // == Function for send a request to the database for register an user account
+  const postSubscribeUser = async () => {
+    try {
+      const userSubscribed = await axios({
+        method: 'post',
+        url: 'https://toutsur-app-gachimaster.herokuapp.com/signup',
+        data: {
+          name: userSignUp.name,
+          email: userSignUp.email,
+          password: userSignUp.password,
+          passwordConfirm: userSignUp.confirmPassword,
+        },
+      });
+      setUserSignUp({
+        ...userSignUp,
+        name: '',
+        email: '',
+        password: '',
+        confirmPassword: '',
+        error: false,
+        subscribed: true,
+      });
+    }
+    catch (error) {
+      setUserSignUp({
+        ...userSignUp,
+        databaseError: true,
+      });
+    }
+  };
+
+  // == Function for the authentification of the user
   const postLoginUser = async () => {
     try {
       const userLogged = await axios({
@@ -225,9 +244,9 @@ const ToutSurApp = () => {
           password: userLog.password,
         },
       });
-      // == Si tout est ok :
-      // == On récupère le token JWT envoyé par l'API, on le stock dans le header de axios,
-      // == Puis on le stock dans le localStorage en cas de rechargement de la page.
+      // == If everything is ok :
+      // == We take the  JWT token responded by the API and we stock it in the header of axios
+      // == And we stock it on the localStorage if the user reload the page.
       axios.defaults.baseURL = 'https://toutsur-app-gachimaster.herokuapp.com';
       axios.defaults.headers.common.Authorization = ` bearer ${userLogged.data.token} `;
       localStorage.setItem('token', userLogged.data.token);
@@ -241,18 +260,17 @@ const ToutSurApp = () => {
         databaseError: false,
       });
     }
-    // == Si il y a une erreur :
+    // == If there is an error we set a error message with a state :
     catch (error) {
       setUserLog({
         ...userLog,
         databaseError: true,
         error: false,
       });
-      
     }
   };
 
-  // == Fonction qui permet de vérifier les inputs de connexion
+  // == Function to verify the login form sended (must include @ and 8 caracters minimum)
   const validateLoginForm = () => {
     if (!userLog.email.includes('@')) {
       setUserLog({
@@ -272,7 +290,8 @@ const ToutSurApp = () => {
       postLoginUser();
     }
   };
-  // == Fonction de logOut
+
+  // == Sign out function who reinitialise the local storage and the user datas.
   const logOutUser = () => {
     localStorage.clear();
     setUserLog({
@@ -286,45 +305,35 @@ const ToutSurApp = () => {
     setFavoritesRSSFeed([]);
   };
 
+  // == Function who recognize the name of the category clicked and run the fetch article function
   const onCategorieSelected = (event) => {
     const clicked = event.target.closest('a');
     onClickCategoriePage(clicked.name);
     setCategorieClicked(clicked.name);
-    console.log(clicked.name);
   };
-  const onFormSignUp = (name, value) => {
-    setUserSignUp({
-      ...userSignUp,
-      [name]: value,
-    });
-  };
-  const handleInputChange = (evt) => {
-    // Je récupère le nom de l'input qui a changé
-    // et sa value (son contenu)
+
+  // == Function who run the SignUp data form register function and clean the error if there is.
+  const handleInputSignupFormChange = (evt) => {
     const { name, value } = evt.target;
     setUserSignUp(name, value);
     onFormSignUp(name, value);
     if (userSignUp.error) {
       setUserSignUp({
         ...userSignUp,
-        error :  false
-      })
+        error: false,
+      });
     }
     if (userSignUp.databaseError) {
       setUserSignUp({
         ...userSignUp,
-        databaseError :  false
-      })
+        databaseError: false,
+      });
     }
   };
-  const handleInputSubmit = (evt) => {
-    evt.preventDefault();
-    // je check le form au submit
-    validateForm();
-  };
-  // Fonction pour valider le form
-  const validateForm = () => {
-    // je veux verifier que password === confirmPassword
+
+  // Function for check the register data form (include @ and more than 8 caracters)
+  const validateSignUpForm = () => {
+    // If signUpPassword is === to the confirmPassword
     if (userSignUp.password !== userSignUp.confirmPassword) {
       setUserSignUp({
         ...userSignUp,
@@ -333,7 +342,7 @@ const ToutSurApp = () => {
         error: true,
       });
     }
-    // email to be email shape, regex to be looked at !!!!
+    // If the SignUp Email include an @
     else if (!userSignUp.email.includes('@')) {
       setUserSignUp({
         ...userSignUp,
@@ -342,7 +351,7 @@ const ToutSurApp = () => {
         error: true,
       });
     }
-    // un minimum de huit caracters pour le mdp
+    // Eight caracters minimum for the password
     else if (((userSignUp.password.length < 8) || (userSignUp.confirmPassword.length < 8))
     && (userSignUp.password !== userSignUp.confirmPassword)) {
       setUserSignUp({
@@ -356,13 +365,23 @@ const ToutSurApp = () => {
       postSubscribeUser();
     }
   };
-  // == Fonction qui permet de vérifier les inputs de mon utilisateur et si tout est bon,
-  // == d'envoyer une requête à l'API.
+
+  // == When the Submit SignUp Input is clicked we verify the informations
+  const handleSignUpSubmit = (evt) => {
+    evt.preventDefault();
+    validateSignUpForm();
+  };
+
+  // == When the Login form is submitted, we check the informations
+  // == with the valideLoginForm function.
   const handleSubmitLogin = (e) => {
     e.preventDefault();
     validateLoginForm();
   };
 
+  // == FETCH & REQUEST API FUNCTIONS == //
+  // == Function for fetch all of the favorites categories of the user
+  // == when he come on the favorite page.
   const onClickBookMarkPage = async () => {
     try {
       const dataCategoriesFetched = await axios({
@@ -390,15 +409,13 @@ const ToutSurApp = () => {
       console.log(error.message);
     }
   };
-  // == Fonction pour chercher les articles selon les categories favoris  d'un utilisateur connecter
+
+  // == Fetch fonction for all of the articles of the favorites categories of the user
   const onClickHomeMemberPage = async () => {
     let favoritesArticles = [];
     setFavoritesRSSFeed([]);
     setIsLoading(true);
-    // loading installer un loader ou uselayouteffect a tester!!
-    // appeler le fetch a optimiser
     try {
-      // Si l'utilisateur est connecter, je vais chercher ses favoris dans la bdd
       if (userLog.logged) {
         const dataFavoriteCategoriesFetched = await axios({
           method: 'post',
@@ -471,7 +488,7 @@ const ToutSurApp = () => {
             });
             favoritesArticles = [...favoritesArticles, ...dataFetchedMode.data];
             setFavoritesRSSFeed([...favoritesArticles]);
-            console.log(dataFetchedMode.data)
+            console.log(dataFetchedMode.data);
           }
           if (data.name === 'Actualités') {
             const dataFetchedActu = await axios({
@@ -501,7 +518,8 @@ const ToutSurApp = () => {
     }
   };
 
-  // Fonction pour supprimer une categories des favoris
+  // If the user want to delete the favorite categorie. We send a delete request to the API and
+  // modify the page
   const onDeleteClick = async (evt) => {
     const categorieToDelete = evt.target.name;
     try {
@@ -509,9 +527,7 @@ const ToutSurApp = () => {
         method: 'delete',
         url: `https://toutsur-app-gachimaster.herokuapp.com/categories/${categorieToDelete}`,
       });
-      console.log('Les catégories après delete:', dataAfterDelete);
       if (dataAfterDelete.data.length === 0) {
-        console.log('on passe a null');
         setUserBookmarksCategoriesPage(null);
         setUserBookmarksCategories(null);
       }
@@ -525,7 +541,8 @@ const ToutSurApp = () => {
     }
   };
 
-  // Fonction pour montrer bouton-scroll-to-top
+  // == MODULES FUNCTIONS == //
+  // Scroll up button display
   const toggleVisible = () => {
     const scrolled = document.documentElement.scrollTop;
     if (scrolled > 300) {
@@ -536,19 +553,20 @@ const ToutSurApp = () => {
     }
   };
 
-  // Fonction pour utiliser bouton-scroll-to-top
+  // When the scroll button is clicked, the window scroll to 0
   const scrollToTop = () => {
     window.scrollTo({
       top: 0,
       behavior: 'smooth',
     });
   };
-
   window.addEventListener('scroll', toggleVisible);
 
-  // == useEffect
-  // == Appel à la BDD
-
+  // == USE EFFECT FONCTIONS == //
+  // == When the page is loading, we check if there is a JWT Token of identification
+  // ==  in the local storage of the user, and we fetch his favorites categories and articles
+  // == to set in the state. Also, we fetch all of the categories of our database
+  // == to put in the state appropried
   useEffect(async () => {
     const tokeninLocalStorage = localStorage.getItem('token');
     if (tokeninLocalStorage) {
@@ -595,7 +613,7 @@ const ToutSurApp = () => {
         method: 'get',
         url: 'https://toutsur-app-gachimaster.herokuapp.com/categories',
       });
-      console.log('Catégories de notre site web:', dataFetched.data)
+      console.log('Catégories de notre site web:', dataFetched.data);
       setCards(dataFetched.data);
     }
     catch (error) {
@@ -603,8 +621,9 @@ const ToutSurApp = () => {
     }
   }, []);
 
+  // == This useEffect is running when the state of the favorite RSS feed of the users
+  // == is fetched. It filter the articles by date of creation
   useEffect(() => {
-    // je compare les dates de creation des articles pour avoir les plus recentes en premier
     const filteredFavoritesArticles = favoritesRSSFeed.sort((a, b) => b.created - a.created);
     if (filteredFavoritesArticles.length === 0) {
       setFilteredFavorites(null);
@@ -618,10 +637,11 @@ const ToutSurApp = () => {
     onClickHomeMemberPage();
   }, [userLog.logged, userBookmarksCategories]);
 
-  // == Rendu de l'application
+  // == RENDER OF THE APPLICATION == //
+  // We use Switch & Route for the routes of the App
   return (
     <div className="toutSurApp">
-      {/* Composant Header qui représente le menu sur toutes les pages */}
+      {/* Header Component, for the menu and the website title */}
       <Header
         userLog={userLog}
         logOutUser={logOutUser}
@@ -631,14 +651,14 @@ const ToutSurApp = () => {
         userSignUp={userSignUp}
       />
 
-      {/* Début des routes */}
-      {/* Composant Switch & Route qui permet de définir les routes pour nos composants */}
+      {/* Starting routes */}
       <Switch>
 
-        {/* Page d'accueil non connecté (liste les catégories) */}
+        {/* Home Page */}
         <Route path="/" exact>
           { userLog.logged
             ? (
+              /* If the user is connected */
               <ArticlesMember
                 articles={filteredFavorites}
                 setUserBookmarksArticles={setUserBookmarksArticles}
@@ -647,6 +667,7 @@ const ToutSurApp = () => {
                 scrollToTop={scrollToTop}
               />
             )
+          /* If the user isn't connected */
             : (
               <Categories
                 list={cards}
@@ -657,7 +678,7 @@ const ToutSurApp = () => {
             )}
         </Route>
 
-        {/* Page de connection */}
+        {/* Connection Page */}
         <Route path="/connection" exact>
           <Connection
             onInputLogUserChange={onInputLogUserChange}
@@ -667,10 +688,11 @@ const ToutSurApp = () => {
           />
         </Route>
 
-        {/* Page des articles pour un utilisateur non connecté */}
+        {/* Articles Page */}
         <Route path="/articles" exact>
           { userLog.logged
             ? (
+            /* If the user is connected */
               <ArticlesByCategories
                 categorieSelected={categorieSelected}
                 categorieClicked={categorieClicked}
@@ -681,6 +703,7 @@ const ToutSurApp = () => {
               />
             )
             : (
+            /* If the user isn't connected */
               <Articles
                 categorieSelected={categorieSelected}
                 isLoading={isLoading}
@@ -690,16 +713,16 @@ const ToutSurApp = () => {
             )}
         </Route>
 
-        {/* Page d'inscription */}
+        {/* Sign Up Page */}
         <Route path="/inscription" exact>
           <SignUpForm
             userSignUp={userSignUp}
-            handleInputChange={handleInputChange}
-            handleInputSubmit={handleInputSubmit}
+            handleInputSignupFormChange={handleInputSignupFormChange}
+            handleSignUpSubmit={handleSignUpSubmit}
           />
         </Route>
 
-        {/* Page des favoris pour un utilisateur  connecté */}
+        {/* Favorite Page */}
         <Route path="/favoris" exact>
           <Favoris
             userBookmarksArticles={userBookmarksArticles}
@@ -710,16 +733,23 @@ const ToutSurApp = () => {
           />
         </Route>
 
-        {/* Route pour utilisateur connecté pour accéder à la fonction Blog du site */}
-        <Route path="/blog" exact>
-          <Blog />
-        </Route>
+        {/* Blog Page if the user is connected */}
+        { userLog.logged ? (
+          <Route path="/blog" exact>
+            <Blog />
+          </Route>
+        )
+          : (
+            <Route path="/blog" exact>
+              <Redirect to="/" />
+            </Route>
+          )}
 
-        {/* Route pour utilisateur connecté pour accéder aux catégories du site */}
-
+        {/* Categories Page */}
         <Route path="/categories" exact>
           { userLog.logged
             ? (
+            /* If the user is connected */
               <CategoriesMember
                 list={cards}
                 onCategorieSelected={onCategorieSelected}
@@ -730,10 +760,11 @@ const ToutSurApp = () => {
                 message={message}
               />
             )
+            /* If the user isn't connected */
             : <Categories list={cards} onCategorieSelected={onCategorieSelected} />}
         </Route>
 
-        {/* Enfin, dernière route représententant la page 404 (erreur) */}
+        {/*  404 Page */}
         <Route>
           <Link
             to="/"
@@ -746,8 +777,7 @@ const ToutSurApp = () => {
           </Link>
           <iframe src="https://giphy.com/embed/TLIj98vlSKpNXnkrBK" width="480" height="480" frameBorder="0" allowFullScreen />
         </Route>
-
-        {/* Fin de routes */}
+        {/* End of the routes */}
       </Switch>
     </div>
   );

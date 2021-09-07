@@ -8,7 +8,7 @@ import {
 import './styles.scss';
 
 // == Composant
-const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
+const SignUpForm = ({ userSignUp, handleSignUpSubmit, handleInputSignupFormChange }) =>
 // == Fonctions
 
   (
@@ -24,7 +24,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
             onSubmit={(e) => {
               // J'empeche le rechargement au submit
               e.preventDefault();
-              handleInputSubmit(e);
+              handleSignUpSubmit(e);
             }}
             error={userSignUp.error}
           >
@@ -67,7 +67,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
                 required
                 name="name"
                 value={userSignUp.name}
-                onChange={handleInputChange}
+                onChange={handleInputSignupFormChange}
                 maxLength={32}
               />
             </Form.Field>
@@ -81,7 +81,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
                 required
                 name="email"
                 value={userSignUp.email}
-                onChange={handleInputChange}
+                onChange={handleInputSignupFormChange}
                 maxLength={128}
               />
             </Form.Field>
@@ -95,7 +95,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
                 name="password"
                 placeholder="Mot de passe (8 caractères minimum)"
                 value={userSignUp.password}
-                onChange={handleInputChange}
+                onChange={handleInputSignupFormChange}
                 maxLength={128}
                 required
               />
@@ -110,7 +110,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
                 required
                 name="confirmPassword"
                 value={userSignUp.confirmPassword}
-                onChange={handleInputChange}
+                onChange={handleInputSignupFormChange}
                 maxLength={128}
               />
             </Form.Field>
@@ -120,7 +120,7 @@ const SignUpForm = ({ userSignUp, handleInputSubmit, handleInputChange }) =>
           || !userSignUp.email
           || !userSignUp.password
           || !userSignUp.confirmPassword}
-              onClick={handleInputSubmit}
+              onClick={handleSignUpSubmit}
             >
               S'inscrire
             </Form.Button>
